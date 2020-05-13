@@ -13,6 +13,10 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(MOD REQUIRED IMPORTED_TARGET modbuspp)
+
+pkg_check_modules(libconf REQUIRED IMPORTED_TARGET libconfig++)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -124,7 +128,9 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/modmanipros.cpp
 # )
-
+add_executable(modmanip src/main.cpp src/Readreg.cpp src/Regconfig.cpp )
+target_link_libraries(modmanip PUBLIC PkgConfig::MOD)
+target_link_libraries(modmanip PUBLIC PkgConfig::libconf)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -133,7 +139,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/modmanipros_node.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

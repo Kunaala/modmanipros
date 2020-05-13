@@ -1,2 +1,2 @@
 # modmanip
-Modbus reading, writin operations
+Modbus reading, writing operations
