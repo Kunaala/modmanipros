@@ -1,0 +1,2 @@
+instval instantvalue
+totval totalvalue

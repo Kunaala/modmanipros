@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  message_generation
 )
 
 find_package(PkgConfig REQUIRED)
@@ -50,12 +51,14 @@ pkg_check_modules(libconf REQUIRED IMPORTED_TARGET libconfig++)
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
+
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   FILES
+   instval.msg
+   totval.msg
+   regval.msg
+ )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -72,11 +75,12 @@ pkg_check_modules(libconf REQUIRED IMPORTED_TARGET libconfig++)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+    DEPENDENCIES
+    std_msgs
+ )
 
+catkin_package(CATKIN_DEPENDS message_runtime)
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
