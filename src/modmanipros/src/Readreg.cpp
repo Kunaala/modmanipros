@@ -34,14 +34,14 @@ float Readreg::readAddr(int addr)
     {
         temp1=std::to_string(valread[0]);
         temp2=std::to_string(valread[1]);
-        std::cout << i   <<": " << temp1 << std::endl;
-        std::cout << i+1 <<": " << temp2 << std::endl;
+        std::cout << addr   <<": " << temp1 << std::endl;
+        std::cout << addr+1 <<": " << temp2 << std::endl;
         temp=temp1+"."+temp2;
         return std::stof(temp);
     }
     else 
     {
-        std::cerr << "Unable to read input registers !" <<i<< std::endl;
+        std::cerr << "Unable to read input registers !" <<addr<<"and"<<addr+1<< std::endl;
         exit (EXIT_FAILURE);
     }
 }
@@ -49,10 +49,11 @@ std::vector<float> Readreg::readVal(std::map<std::string, int> regAddr)
 {
     std::vector <float> val(regAddr.size());
     modmanipros::regval msg;
-    std::map<string, int>::const_iterator m;
-    for(m = regAddr.begin(); m!=regAddr.end(); m++ )
+    typedef std::map<std::string, int>::const_iterator map_itr;
+    for(map_itr m = regAddr.begin(); m!=regAddr.end(); m++ )
     {
-        msg.(m->first) = Readreg::readAddr(find(m));
+        //msg.(m->first) = Readreg::readAddr(find(m));
+        std::cout<<Readreg::readAddr(m->second)<<std::endl;
     }
     
     return val;
