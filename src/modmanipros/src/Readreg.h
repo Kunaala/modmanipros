@@ -20,6 +20,7 @@
 #include<string>
 #include<iostream>
 #include<modbuspp.h>
+#include<map>
 #include<vector>
 /**
  * @todo write docs
@@ -30,12 +31,13 @@ public:
 
    
     Readreg(Modbus::Slave* slv);
-    std::vector<float> readVal(std::vector<int> regAddr);
+    std::vector<float> readVal(std::map<std::string, int> regAddr);
+    float readAddr(int addr)
+	void readBits(std::vector<int> regAddr);
     
 private:
     
     Modbus::Slave* slave;
-    void readBits(int regAddr);
     
 };
 

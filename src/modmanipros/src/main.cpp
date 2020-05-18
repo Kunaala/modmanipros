@@ -10,15 +10,19 @@ using namespace libconfig;
 int main (int argc, char **argv) {
     std::string port ="/dev/pts/6";
     Master mb (Rtu, port , "38400"); // new master on RTU
-    Slave  &slv = mb.addSlave(33);                          // to the slave at address 33
-
-    
+    Slave  &slv = mb.addSlave(33);   // to the slave at address 33
+	std::vector<float> rwRegVal;
+	Regconfig rc1;
+	std::map<std::string, int> rRegisters,alarmRegisters;
+    rRegisters = rc1.rwReg(); // to store the rw register address
+	alarmRegisters = rc1.alarmReg(); // to store alarm register address
+	
     if (mb.open ()) { // open a connection
             
         Readreg r1(&slv);
         Regconfig rc1;
-        std::vector <int> reg;
-        reg = rc1.rwReg();
+        std::map<std::string, int> regAddr;
+        regAddr = rc1.rwReg();
         
         mb.close();
     }

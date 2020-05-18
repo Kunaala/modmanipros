@@ -15,8 +15,8 @@
  */
 
 #include "Readreg.h"
-
-
+#include "ros/ros.h"
+#include "modmanipros/regval.h"
 
 Readreg::Readreg(Modbus::Slave* slv)
 {
@@ -26,45 +26,56 @@ Readreg::Readreg(Modbus::Slave* slv)
      //Readreg::readVal(10);
    
 }
-std::vector<float> Readreg::readVal(std::vector<int> regAddr)
+float Readreg::readAddr(int addr)
 {
     uint16_t valread[4]; 
-    std::vector <float> val(regAddr.size());
     std::string temp,temp1,temp2;
-    for(int i=0;i<regAddr.size();i++)
+    if (slave->readInputRegisters(addr, valread, 2) == 2) 
     {
-        if (slave->readInputRegisters(regAddr[i], valread, 2) == 2) {
-
         temp1=std::to_string(valread[0]);
         temp2=std::to_string(valread[1]);
-        
         std::cout << i   <<": " << temp1 << std::endl;
         std::cout << i+1 <<": " << temp2 << std::endl;
-        
         temp=temp1+"."+temp2;
-        
-        val[i]=std::stof(temp);
-        
-        std::cout<<val[i]<<std::endl;
-        
+        return std::stof(temp);
     }
-    else {
-        
+    else 
+    {
         std::cerr << "Unable to read input registers !" <<i<< std::endl;
         exit (EXIT_FAILURE);
-        
     }
+}
+std::vector<float> Readreg::readVal(std::map<std::string, int> regAddr)
+{
+    std::vector <float> val(regAddr.size());
+    modmanipros::regval msg;
+    std::map<string, int>::const_iterator m;
+    for(m = regAddr.begin(); m!=regAddr.end(); m++ )
+    {
+        msg.(m->first) = Readreg::readAddr(find(m));
     }
+    
     return val;
     
 }
 
-void Readreg::readBits(int regAddr)
+void Readreg::readBits(std::vector<int> regAddr)
 {
-    
+   uint16_t *valread = nullptr;
+   std::vector<float> val(regAddr.size());
+   for(int i = 0;i<regAddr.size();i++)
+   {
+	   if(slave->readInputRegisters(regAddr[i],valread,1) == 1)
+	   {
+		   for(int j = 0;j<16;j++)
+		   {
+			   std::cout<<"Reg "<<i<<" bit:"<<j<< static_cast<bool>(*valread & (1 << j)) << std::endl;
+		   }
+	   }
+   }
+   
+   
 }
-
-
 
 
 

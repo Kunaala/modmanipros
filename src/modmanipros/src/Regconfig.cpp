@@ -19,74 +19,83 @@
 Regconfig::Regconfig()
 {
 
-  // Read the file. If there is an error, report it and exit.
-  try
-  {
-    cfg.readFile("invalid.cfg");
-  }
-  catch(const FileIOException &fioex)
-  {
-    std::cerr << "I/O error while reading file." << std::endl;
-  }
-  catch(const ParseException &pex)
-  {
-    std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine();
-  }
 }
 
-
-std::vector<int> Regconfig::rwReg()
+std::map<std::string, int> Regconfig::rwReg()
 {
-	const Setting& root = cfg.getRoot();
 
-  // Output a list of all books in the inventory.
+// const Setting& root = cfg.getRoot();
 
-    const Setting &instValue = root["regType"]["readOnly"]["instValue"];
-	std::vector<int> reg(10);
-	instValue.lookupValue("title", reg[0]);
-	instValue.lookupValue("author", reg[1]);
-    instValue.lookupValue("price", reg[2]);
-	instValue.lookupValue("qty", reg[3]);
+//   // Output a list of all books in the inventory.
+
+//     const Setting& root = cfg.getRoot();
+
+//   // Output a list of all books in the inventory.
+
+//     const Setting &instValue = root["regType"]["readOnly"]["instValue"];
+// 	std::vector<int> reg(12);
+// 	instValue.lookupValue("massFlow", reg[0]);
+// 	instValue.lookupValue("density", reg[1]);
+//     instValue.lookupValue("temperature", reg[2]);
+// 	instValue.lookupValue("volumeFlow", reg[3]);
+// 	instValue.lookupValue("driveGain", reg[4]);
+// 	instValue.lookupValue("tubeFrequency", reg[5]);
+// 	instValue.lookupValue("lPickoff", reg[6]);
+// 	instValue.lookupValue("rPickoff", reg[7]);
 	
-	const Setting &totValue = root["regType"]["readOnly"]["totValue"];
-	totValue.lookupValue("title", reg[4]);
-	totValue.lookupValue("author", reg[5]);
-    totValue.lookupValue("price", reg[6]);
-	totValue.lookupValue("qty", reg[7]);
-	std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
-	return reg;
+// 	const Setting &totValue = root["regType"]["readOnly"]["totValue"];
+// 	totValue.lookupValue("massFlowTotal", reg[8]);
+// 	totValue.lookupValue("massFlowInventory", reg[9]);
+//     totValue.lookupValue("volumeTotal", reg[10]);
+// 	totValue.lookupValue("volumeInventory", reg[11]);
+// 	std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
+
+	std::map<std::string, int> regAddr;
+	regAddr.insert(std::make_pair("instval.mflow",247));
+	regAddr.insert(std::make_pair("instval.density",249));
+	regAddr.insert(std::make_pair("instval.temp",251));
+	regAddr.insert(std::make_pair("instval.vflow",253));
+	regAddr.insert(std::make_pair("instval.driveg",291));
+	regAddr.insert(std::make_pair("instval.rtfreq",285));
+	regAddr.insert(std::make_pair("instval.lpvolts",287));
+	regAddr.insert(std::make_pair("instval.rpvolts",289));
+	regAddr.insert(std::make_pair("totval.mflowt",259));
+	regAddr.insert(std::make_pair("totval.mflowinv",263));
+	regAddr.insert(std::make_pair("totval.vflowt",261));
+	regAddr.insert(std::make_pair("totval.vflowinv",265));
+	return regAddr;
 }
 
 
-std::vector<int> Regconfig::wReg()
+std::map<std::string, int> Regconfig::wReg()
 {
-	const Setting& root = cfg.getRoot();
+// 	const Setting& root = cfg.getRoot();
 
-  // Output a list of all books in the inventory.
+//   // Output a list of all books in the inventory.
 
-    const Setting &readWrite = root["regType"]["readWrite"];
-	std::vector<int> reg(10);
-	readWrite.lookupValue("title", reg[0]);
-	readWrite.lookupValue("author", reg[1]);
-    readWrite.lookupValue("price", reg[2]);
-	readWrite.lookupValue("qty", reg[3]);
-	std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
-	return reg;
+//     const Setting &readWrite = root["regType"]["readWrite"];
+// 	std::vector<int> reg(10);
+// 	readWrite.lookupValue("title", reg[0]);
+// 	readWrite.lookupValue("author", reg[1]);
+//     readWrite.lookupValue("price", reg[2]);
+// 	readWrite.lookupValue("qty", reg[3]);
+// 	std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
+// 	return reg;
 }
 
 
 
-std::vector<int> Regconfig::alarmReg()
+std::map<std::string, int> Regconfig::alarmReg()
 {
-	const Setting& root = cfg.getRoot();
-    const Setting &readWrite = root["regType"]["alarm"];
-	std::vector<int> reg(10);
-	readWrite.lookupValue("title", reg[0]);
-	readWrite.lookupValue("author", reg[1]);
-    readWrite.lookupValue("price", reg[2]);
-	readWrite.lookupValue("qty", reg[3]);
-	std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
-	return reg;
+	// const Setting& root = cfg.getRoot();
+    // const Setting &readWrite = root["regType"]["alarm"];
+	// std::vector<int> reg(10);
+	// readWrite.lookupValue("title", reg[0]);
+	// readWrite.lookupValue("author", reg[1]);
+    // readWrite.lookupValue("price", reg[2]);
+	// readWrite.lookupValue("qty", reg[3]);
+	// std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
+	// return reg;
 }
 
 

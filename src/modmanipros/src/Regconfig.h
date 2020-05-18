@@ -17,22 +17,18 @@
 #ifndef REGCONFIG_H
 #define REGCONFIG_H
 #include<iostream>
-#include <libconfig.h++>
-#include <vector>
+#include<map>
 #include <string>
 
-
-using namespace libconfig;
 class Regconfig
 {
 public:
 	
     Regconfig();
-	std::vector<int> rwReg();
-	std::vector<int> wReg();
-	std::vector<int> alarmReg();
+	std::map<std::string, int> rwReg();
+	std::map<std::string, int> wReg();
+	std::map<std::string, int> alarmReg();
 private:
-	Config cfg;
 
 
 };
