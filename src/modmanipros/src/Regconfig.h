@@ -26,8 +26,8 @@ public:
 	
     Regconfig();
 	std::map<std::string, int> rwReg();
-	std::map<std::string, int> wReg();
-	std::map<std::string, int> alarmReg();
+// 	std::map<std::string, int> wReg();
+// 	std::map<std::string, int> alarmReg();
 private:
 
 

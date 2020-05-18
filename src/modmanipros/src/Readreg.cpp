@@ -45,7 +45,7 @@ float Readreg::readAddr(int addr)
         exit (EXIT_FAILURE);
     }
 }
-std::vector<float> Readreg::readVal(std::map<std::string, int> regAddr)
+void Readreg::readVal(std::map<std::string, int> regAddr)
 {
     std::vector <float> val(regAddr.size());
     modmanipros::regval msg;
@@ -55,8 +55,8 @@ std::vector<float> Readreg::readVal(std::map<std::string, int> regAddr)
         //msg.(m->first) = Readreg::readAddr(find(m));
         std::cout<<Readreg::readAddr(m->second)<<std::endl;
     }
-    
-    return val;
+//     
+//     return val;
     
 }
 

@@ -31,7 +31,7 @@ public:
 
    
     Readreg(Modbus::Slave* slv);
-    std::vector<float> readVal(std::map<std::string, int> regAddr);
+    void readVal(std::map<std::string, int> regAddr);
     float readAddr(int addr);
 	void readBits(std::vector<int> regAddr);
     
