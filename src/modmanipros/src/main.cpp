@@ -7,6 +7,8 @@
 #include<modbuspp.h>
 #include<map>
 #include<vector>
+#include<ros/ros.h>
+
 
 
 
@@ -17,7 +19,12 @@ int main (int argc, char **argv) {
     std::string port ="/dev/pts/11";
     Master mb (Rtu, port , "38400"); // new master on RTU
     Slave  &slv = mb.addSlave(33);   // to the slave at address 33
-	//std::vector<float> rwRegVal;
+    /////ros inclusion//////
+    ros::init(argc,argv,"modbusnode");
+    ros::NodeHandle nh;
+    ros::Rate loop_rate(0.2);
+    ros::Publisher readregpub=nh.advertise<modmanipros::regval>("modmanip/readval",1000);
+    /////ros node initialized////
 	Regconfig rc1;
 	std::map<std::string, int> rRegisters,alarmRegisters;
     rRegisters = rc1.rwReg(); // to store the rw register address
@@ -26,9 +33,19 @@ int main (int argc, char **argv) {
     if (mb.open ()) { // open a connection
             
         Writereg w1(&slv);
-        w1.writeAddr(rRegisters);
         Readreg r1(&slv);
-        r1.readVal(rRegisters);
+        w1.writeAddr(rRegisters);
+        ///ROS publisher//////////
+        while (ros::ok())
+        {
+            
+            modmanipros::regval msg;
+            msg= r1.readVal(rRegisters);
+            readregpub.publish(msg);
+            ros::spinOnce();
+            loop_rate.sleep();
+        }
+        ///End of ROS publisher//////
         mb.close();
     }
     else {

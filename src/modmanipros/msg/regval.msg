@@ -1,2 +1,2 @@
-instval instantvalue
-totval totalvalue
+instval instval
+totval totval

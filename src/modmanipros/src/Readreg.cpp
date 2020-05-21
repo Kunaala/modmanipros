@@ -45,18 +45,34 @@ float Readreg::readAddr(int addr)
         exit (EXIT_FAILURE);
     }
 }
-void Readreg::readVal(std::map<std::string, int> regAddr)
+modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
 {
-    std::vector <float> val(regAddr.size());
+    
     modmanipros::regval msg;
-    typedef std::map<std::string, int>::const_iterator map_itr;
+    std::unordered_map<std::string, double*> umap; 
+    // inserting values by using [] operator 
+	umap["instval.mflow"] = &msg.instval.mflow;
+	umap["instval.density"] = &msg.instval.density;
+	umap["instval.vflow"] = &msg.instval.vflow;
+	umap["instval.driveg"] = &msg.instval.driveg;
+	umap["instval.temp"] = &msg.instval.temp;
+	umap["instval.rtfreq"] = &msg.instval.rtfreq;
+	umap["instval.lpvolts"] = &msg.instval.lpvolts;
+	umap["instval.rpvolts"] = &msg.instval.rpvolts;
+	umap["totval.mflowt"] = &msg.totval.mflowt;
+	umap["totval.mflowinv"] = &msg.totval.mflowinv;
+	umap["totval.vflowt"] = &msg.totval.vflowt;
+	umap["totval.vflowinv"] = &msg.totval.vflowinv;
+	std::cout<<"In program"<<&msg<<std::endl;
+	typedef std::map<std::string, int>::const_iterator map_itr;
     for(map_itr m = regAddr.begin(); m!=regAddr.end(); m++ )
     {
-        //msg.(m->first) = Readreg::readAddr(find(m));
-        std::cout<<Readreg::readAddr(m->second)<<std::endl;
+		float temp = Readreg::readAddr((m->second)+1);
+// 		std::cout<<m->first<<"--"<<temp<<std::endl;
+		*umap[m->first] = temp;
     }
-//     
-//     return val;
+    
+    return msg;
     
 }
 

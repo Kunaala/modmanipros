@@ -22,6 +22,8 @@
 #include<modbuspp.h>
 #include<map>
 #include<vector>
+#include<unordered_map>
+#include "modmanipros/regval.h"
 /**
  * @todo write docs
  */
@@ -31,7 +33,7 @@ public:
 
    
     Readreg(Modbus::Slave* slv);
-    void readVal(std::map<std::string, int> regAddr);
+    modmanipros::regval readVal(std::map<std::string, int> regAddr);
     float readAddr(int addr);
 	void readBits(std::vector<int> regAddr);
     
