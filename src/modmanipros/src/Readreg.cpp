@@ -34,8 +34,8 @@ float Readreg::readAddr(int addr)
     {
         temp1=std::to_string(valread[0]);
         temp2=std::to_string(valread[1]);
-        std::cout << addr   <<": " << temp1 << std::endl;
-        std::cout << addr+1 <<": " << temp2 << std::endl;
+        //std::cout << addr   <<": " << temp1 << std::endl;
+        //std::cout << addr+1 <<": " << temp2 << std::endl;
         temp=temp1+"."+temp2;
         return std::stof(temp);
     }

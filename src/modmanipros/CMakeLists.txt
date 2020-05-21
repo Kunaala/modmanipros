@@ -132,7 +132,7 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/modmanipros.cpp
 # )
-add_executable(modmanip src/main.cpp src/Readreg.cpp src/Regconfig.cpp )
+add_executable(modmanip src/main.cpp src/Readreg.cpp src/Regconfig.cpp src/writereg.cpp)
 target_link_libraries(modmanip PUBLIC PkgConfig::MOD)
 target_link_libraries(modmanip PUBLIC PkgConfig::libconf)
 ## Add cmake target dependencies of the library

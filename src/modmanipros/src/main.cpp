@@ -1,5 +1,6 @@
 #include <libconfig.h++>
 #include "Readreg.h"
+#include "writereg.h"
 #include "Regconfig.h"
 #include<string>
 #include<iostream>
@@ -13,7 +14,7 @@ using namespace Modbus;
 using namespace libconfig;
 
 int main (int argc, char **argv) {
-    std::string port ="/dev/pts/6";
+    std::string port ="/dev/pts/11";
     Master mb (Rtu, port , "38400"); // new master on RTU
     Slave  &slv = mb.addSlave(33);   // to the slave at address 33
 	//std::vector<float> rwRegVal;
@@ -24,6 +25,8 @@ int main (int argc, char **argv) {
 
     if (mb.open ()) { // open a connection
             
+        Writereg w1(&slv);
+        w1.writeAddr(rRegisters);
         Readreg r1(&slv);
         r1.readVal(rRegisters);
         mb.close();
