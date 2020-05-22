@@ -49,6 +49,7 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
 {
     
     modmanipros::regval msg;
+    msg.header.stamp.fromSec(ros::WallTime::now().toSec());
     std::unordered_map<std::string, double*> umap; 
     // inserting values by using [] operator 
 	umap["instval.mflow"] = &msg.instval.mflow;

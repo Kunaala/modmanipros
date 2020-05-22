@@ -16,7 +16,7 @@ using namespace Modbus;
 using namespace libconfig;
 
 int main (int argc, char **argv) {
-    std::string port ="/dev/pts/11";
+    std::string port ="/dev/pts/12";
     Master mb (Rtu, port , "38400"); // new master on RTU
     Slave  &slv = mb.addSlave(33);   // to the slave at address 33
     /////ros inclusion//////
@@ -40,6 +40,7 @@ int main (int argc, char **argv) {
         {
             
             modmanipros::regval msg;
+            
             msg= r1.readVal(rRegisters);
             readregpub.publish(msg);
             ros::spinOnce();
