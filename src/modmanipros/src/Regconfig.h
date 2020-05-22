@@ -19,6 +19,7 @@
 #include<iostream>
 #include<map>
 #include <string>
+#include<vector>
 
 class Regconfig
 {
@@ -27,7 +28,7 @@ public:
     Regconfig();
 	std::map<std::string, int> rwReg();
 // 	std::map<std::string, int> wReg();
-// 	std::map<std::string, int> alarmReg();
+    std::vector<int> alarmReg();    
 private:
 
 

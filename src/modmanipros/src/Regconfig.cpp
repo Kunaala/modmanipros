@@ -85,18 +85,11 @@ std::map<std::string, int> Regconfig::rwReg()
 // 
 // 
 // 
-// std::map<std::string, int> Regconfig::alarmReg()
-// {
-// 	// const Setting& root = cfg.getRoot();
-//     // const Setting &readWrite = root["regType"]["alarm"];
-// 	// std::vector<int> reg(10);
-// 	// readWrite.lookupValue("title", reg[0]);
-// 	// readWrite.lookupValue("author", reg[1]);
-//     // readWrite.lookupValue("price", reg[2]);
-// 	// readWrite.lookupValue("qty", reg[3]);
-// 	// std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
-// 	// return reg;
-// }
+std::vector<int> Regconfig::alarmReg()
+{
+	std::vector<int> reg = { 1,420}; 
+	return reg;
+}
 
 
  

@@ -58,6 +58,7 @@ add_message_files(
    instval.msg
    totval.msg
    regval.msg
+   alarm.msg
  )
 
 ## Generate services in the 'srv' folder
