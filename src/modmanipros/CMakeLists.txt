@@ -81,7 +81,7 @@ generate_messages(
     std_msgs
  )
 
-catkin_package(CATKIN_DEPENDS message_runtime)
+catkin_package(CATKIN_DEPENDS rospy roscpp message_runtime)
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -114,7 +114,7 @@ catkin_package(CATKIN_DEPENDS message_runtime)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES modmanipros
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+   CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -137,6 +137,9 @@ include_directories(
 add_executable(modmanip src/main.cpp src/Readreg.cpp src/Regconfig.cpp src/writereg.cpp)
 target_link_libraries(modmanip PUBLIC PkgConfig::MOD)
 target_link_libraries(modmanip PUBLIC PkgConfig::libconf)
+target_link_libraries(modmanip ${catkin_LIBRARIES})
+add_dependencies(modmanip modmanipros_generate_messages_cpp)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
