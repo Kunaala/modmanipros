@@ -127,6 +127,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  include
   src
 )
 
@@ -134,7 +135,7 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/modmanipros.cpp
 # )
-add_executable(modmanip src/main.cpp src/Readreg.cpp src/Regconfig.cpp src/writereg.cpp)
+add_executable(modmanip src/main.cpp lib/Readreg.cpp lib/Regconfig.cpp lib/writereg.cpp)
 target_link_libraries(modmanip PUBLIC PkgConfig::MOD)
 target_link_libraries(modmanip PUBLIC PkgConfig::libconf)
 target_link_libraries(modmanip ${catkin_LIBRARIES})
