@@ -16,6 +16,7 @@
 
 #include "Readreg.h"
 #include "ros/ros.h"
+#include <boost/thread/thread.hpp>
 
 Readreg::Readreg(Modbus::Slave* slv)
 {
@@ -29,19 +30,36 @@ float Readreg::readAddr(int addr)
 {
     uint16_t valread[4]; 
     std::string temp,temp1,temp2;
-    if (slave->readInputRegisters(addr, valread, 2) == 2) 
+    
+    for(int i=0; i <2; i++)
     {
-        temp1=std::to_string(valread[0]);
-        temp2=std::to_string(valread[1]);
-        //std::cout << addr   <<": " << temp1 << std::endl;
-        //std::cout << addr+1 <<": " << temp2 << std::endl;
-        temp=temp1+"."+temp2;
-        return std::stof(temp);
-    }
-    else 
-    {
-        std::cerr << "Unable to read input registers !" <<addr<<"and"<<addr+1<< std::endl;
-        exit (EXIT_FAILURE);
+        int regResponse = slave->readRegisters(addr, valread, 2);
+        std::cout<<regResponse<<std::endl;
+        try{
+            if (regResponse == 2) 
+            {
+                temp1=std::to_string(valread[0]);
+                temp2=std::to_string(valread[1]);
+                //std::cout << addr   <<": " << temp1 << std::endl;
+                //std::cout << addr+1 <<": " << temp2 << std::endl;
+                temp=temp1+"."+temp2;
+                std::cout<<temp<<std::endl;
+                std::cout<<"SUCCESS"<<std::endl;
+                return std::stof(temp);
+
+            }
+            else 
+            {
+                std::cerr << "Unable to read input registers !" <<addr<<"and"<<addr+1<< std::endl;
+                throw "Unable to read input registers !";
+            }
+        }
+        catch (const char* msg) {
+            std::cerr << msg << std::endl;
+            // boost::this_thread::sleep( boost::posix_time::milliseconds(1000) );
+            continue;
+        }
+
     }
 }
 modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
@@ -67,7 +85,7 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
 	typedef std::map<std::string, int>::const_iterator map_itr;
     for(map_itr m = regAddr.begin(); m!=regAddr.end(); m++ )
     {
-		float temp = Readreg::readAddr((m->second)+1);
+		float temp = Readreg::readAddr((m->second));
 // 		std::cout<<m->first<<"--"<<temp<<std::endl;
 		*umap[m->first] = temp;
     }

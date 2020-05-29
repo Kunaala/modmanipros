@@ -16,13 +16,13 @@ using namespace Modbus;
 using namespace libconfig;
 
 int main (int argc, char **argv) {
-    std::string port ="/dev/pts/5";
-    Master mb (Rtu, port , "38400"); // new master on RTU
-    Slave  &slv = mb.addSlave(33);   // to the slave at address 33
+    std::string port ="/dev/ttyUSB0";
+    Master mb (Rtu, port , "57600"); // new master on RTU
+    Slave  &slv = mb.addSlave(1);   // to the slave at address 33
     /////ros inclusion//////
     ros::init(argc,argv,"modbusnode");
     ros::NodeHandle nh;
-    ros::Rate loop_rate(0.2);
+    ros::Rate loop_rate(0.1);
     ros::Publisher readregpub=nh.advertise<modmanipros::regval>("modmanip/readval",1000);
     ros::Publisher alarmpub=nh.advertise<modmanipros::alarm>("modmanip/alarm",1000);
     /////ros node initialized///
@@ -36,7 +36,7 @@ int main (int argc, char **argv) {
             
         Writereg w1(&slv);
         Readreg r1(&slv);
-        // w1.writeAddr(rRegisters);
+        w1.writeAddr(rRegisters);
         ///ROS publisher//////////
         while (ros::ok())
         {
