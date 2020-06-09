@@ -28,12 +28,12 @@ Readreg::Readreg(Modbus::Slave* slv)
 }
 float Readreg::readAddr(int addr)
 {
-    uint16_t valread[4]; 
+    //uint16_t valread[4]; 
     std::string temp,temp1,temp2;
     
     for(int i=0; i <2; i++)
     {
-        int regResponse = slave->readRegisters(addr, valread, 2);
+        int regResponse = slave->readRegisters(addr, valread, 1);
         std::cout<<regResponse<<std::endl;
         try{
             if (regResponse == 2) 
@@ -43,6 +43,7 @@ float Readreg::readAddr(int addr)
                 //std::cout << addr   <<": " << temp1 << std::endl;
                 //std::cout << addr+1 <<": " << temp2 << std::endl;
                 temp=temp1+"."+temp2;
+                std::cout<<valread[0]<<": "<<valread[1]<<std::endl;
                 std::cout<<temp<<std::endl;
                 std::cout<<"SUCCESS"<<std::endl;
                 return std::stof(temp);

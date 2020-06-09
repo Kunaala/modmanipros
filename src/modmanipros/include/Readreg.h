@@ -41,6 +41,7 @@ public:
 private:
     
     Modbus::Slave* slave;
+    Modbus::Data<int, Modbus::EndianBigLittle> valread[2] 
     
 };
 
