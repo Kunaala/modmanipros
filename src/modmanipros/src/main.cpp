@@ -24,7 +24,7 @@ int main (int argc, char **argv) {
     ros::NodeHandle nh;
     ros::Rate loop_rate(0.1);
     ros::Publisher readregpub=nh.advertise<modmanipros::regval>("modmanip/readval",1000);
-    //ros::Publisher alarmpub=nh.advertise<modmanipros::alarm>("modmanip/alarm",1000);
+    ros::Publisher alarmpub=nh.advertise<modmanipros::alarm>("modmanip/alarm",1000);
     /////ros node initialized///
 	Regconfig rc1;
 	std::map<std::string, int> rRegisters;
@@ -44,9 +44,9 @@ int main (int argc, char **argv) {
             modmanipros::regval readRegMsg;
             modmanipros::alarm alarmMsg;
             readRegMsg= r1.readVal(rRegisters);
-            //alarmMsg =  r1.readBits(alarmRegisters);
+            alarmMsg =  r1.readBits(alarmRegisters);
             readregpub.publish(readRegMsg);
-            //alarmpub.publish(alarmMsg);
+            alarmpub.publish(alarmMsg);
             ros::spinOnce();
             loop_rate.sleep();
         }

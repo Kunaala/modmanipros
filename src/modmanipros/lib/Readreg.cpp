@@ -43,7 +43,7 @@ float Readreg::readAddr(int addr)
                 //std::cout << addr   <<": " << temp1 << std::endl;
                 //std::cout << addr+1 <<": " << temp2 << std::endl;
                 //temp=temp1+"."+temp2;
-                std::cout<<valread[0]<<std::endl;
+                std::cout<<valread[0]<<" "<<temp2<<std::endl;
                 //std::cout<<temp<<std::endl;
                 std::cout<<"SUCCESS"<<std::endl;
                 return std::stof(temp1);
@@ -105,14 +105,14 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)
        if(i == 0)
         {
             uint16_t valread[2];
-            if(slave->readInputRegisters(regAddr[i],valread,1) == 1)
+            if(slave->readRegisters(regAddr[i],valread,1) == 1)
             {
                 std::vector<uint8_t> alarmval;
                 // alarmval = &msg.primaryflags;
                 for(int j = 0;j<16;j++)
                 {
                     uint8_t bitval;
-                    // std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl;
+                    std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl;
                     bitval = uint8_t(valread[0] & (1 << j));
                     alarmval.push_back(bitval);
                 } 
@@ -124,13 +124,13 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)
         else if (i == 1 )
         {
             uint16_t valread[2];
-            if(slave->readInputRegisters(regAddr[i],valread,1) == 1)
+            if(slave->readRegisters(regAddr[i],valread,1) == 1)
             {
                 std::vector<uint8_t> alarmval;
                 for(int j = 0;j<16;j++)
                 {
                     uint8_t bitval;
-                    // std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl;
+                    std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl;
                     bitval = uint8_t(valread[0] & (1 << j));
                     alarmval.push_back(bitval);
                     
