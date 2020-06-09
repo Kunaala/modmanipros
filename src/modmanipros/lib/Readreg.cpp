@@ -34,7 +34,7 @@ float Readreg::readAddr(int addr)
     for(int i=0; i <2; i++)
     {
         int regResponse = slave->readRegisters(addr, valread, 1);
-        std::cout<<regResponse<<std::endl;
+        //std::cout<<regResponse<<std::endl;
         try{
             if (regResponse == 2) 
             {
@@ -42,11 +42,11 @@ float Readreg::readAddr(int addr)
                 temp2=std::to_string(valread[1]);
                 //std::cout << addr   <<": " << temp1 << std::endl;
                 //std::cout << addr+1 <<": " << temp2 << std::endl;
-                temp=temp1+"."+temp2;
-                std::cout<<valread[0]<<": "<<valread[1]<<std::endl;
-                std::cout<<temp<<std::endl;
+                //temp=temp1+"."+temp2;
+                std::cout<<valread[0]<<std::endl;
+                //std::cout<<temp<<std::endl;
                 std::cout<<"SUCCESS"<<std::endl;
-                return std::stof(temp);
+                return std::stof(temp1);
 
             }
             else 

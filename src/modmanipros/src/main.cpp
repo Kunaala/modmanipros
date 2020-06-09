@@ -17,7 +17,7 @@ using namespace libconfig;
 
 int main (int argc, char **argv) {
     std::string port ="/dev/ttyUSB0";
-    Master mb (Rtu, port , "57600"); // new master on RTU
+    Master mb (Rtu, port , "38400"); // new master on RTU
     Slave  &slv = mb.addSlave(1);   // to the slave at address 33
     /////ros inclusion//////
     ros::init(argc,argv,"modbusnode");
@@ -34,9 +34,9 @@ int main (int argc, char **argv) {
 
     if (mb.open ()) { // open a connection
             
-        Writereg w1(&slv);
+        //Writereg w1(&slv);
         Readreg r1(&slv);
-        w1.writeAddr(rRegisters);
+        //w1.writeAddr(rRegisters);
         ///ROS publisher//////////
         while (ros::ok())
         {
