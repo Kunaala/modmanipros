@@ -25,9 +25,7 @@
 #include<unordered_map>
 #include "modmanipros/regval.h"
 #include "modmanipros/alarm.h"
-/**
- * @todo write docs
- */
+
 class Readreg
 {
 public:
@@ -40,8 +38,8 @@ public:
     
 private:
     
-    Modbus::Slave* slave;
-    Modbus::Data<float, Modbus::EndianBigLittle> valread[2];
+    Modbus::Slave* slave;                                      ///creating local slave object
+    Modbus::Data<float, Modbus::EndianBigLittle> valread[2];  ///containers for reading value from registers
 
    
 

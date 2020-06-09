@@ -24,31 +24,6 @@ Regconfig::Regconfig()
 std::map<std::string, int> Regconfig::rwReg()
 {
 
-// const Setting& root = cfg.getRoot();
-
-//   // Output a list of all books in the inventory.
-
-//     const Setting& root = cfg.getRoot();
-
-//   // Output a list of all books in the inventory.
-
-//     const Setting &instValue = root["regType"]["readOnly"]["instValue"];
-// 	std::vector<int> reg(12);
-// 	instValue.lookupValue("massFlow", reg[0]);
-// 	instValue.lookupValue("density", reg[1]);
-//     instValue.lookupValue("temperature", reg[2]);
-// 	instValue.lookupValue("volumeFlow", reg[3]);
-// 	instValue.lookupValue("driveGain", reg[4]);
-// 	instValue.lookupValue("tubeFrequency", reg[5]);
-// 	instValue.lookupValue("lPickoff", reg[6]);
-// 	instValue.lookupValue("rPickoff", reg[7]);
-	
-// 	const Setting &totValue = root["regType"]["readOnly"]["totValue"];
-// 	totValue.lookupValue("massFlowTotal", reg[8]);
-// 	totValue.lookupValue("massFlowInventory", reg[9]);
-//     totValue.lookupValue("volumeTotal", reg[10]);
-// 	totValue.lookupValue("volumeInventory", reg[11]);
-// 	std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
 
 	std::map<std::string, int> regAddr;
 	regAddr.insert(std::make_pair("instval.mflow",247));
@@ -65,26 +40,7 @@ std::map<std::string, int> Regconfig::rwReg()
 	regAddr.insert(std::make_pair("totval.vflowinv",265));
 	return regAddr;
 }
-
-
-// std::map<std::string, int> Regconfig::wReg()
-// {
-// // 	const Setting& root = cfg.getRoot();
-// 
-// //   // Output a list of all books in the inventory.
-// 
-// //     const Setting &readWrite = root["regType"]["readWrite"];
-// // 	std::vector<int> reg(10);
-// // 	readWrite.lookupValue("title", reg[0]);
-// // 	readWrite.lookupValue("author", reg[1]);
-// //     readWrite.lookupValue("price", reg[2]);
-// // 	readWrite.lookupValue("qty", reg[3]);
-// // 	std::cout << reg[0] <<  reg[1] << reg[2] << reg[3] << std::endl;
-// // 	return reg;
-// }
-// 
-// 
-// 
+ 
 std::vector<int> Regconfig::alarmReg()
 {
 	std::vector<int> reg = { 1,420}; 

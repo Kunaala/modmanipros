@@ -16,19 +16,16 @@
 
 #include "Readreg.h"
 #include "ros/ros.h"
-#include <boost/thread/thread.hpp>
 
 Readreg::Readreg(Modbus::Slave* slv)
 {
      std::cout<<"Reading has started\n";
      
-     slave=slv;
-     //Readreg::readVal(10);
+     slave=slv;                     ///initialization of Slave
    
 }
 float Readreg::readAddr(int addr)
 {
-    //uint16_t valread[4]; 
     std::string temp,temp1,temp2;
     
     for(int i=0; i <2; i++)
@@ -36,15 +33,12 @@ float Readreg::readAddr(int addr)
         int regResponse = slave->readRegisters(addr, valread, 1);
         //std::cout<<regResponse<<std::endl;
         try{
-            if (regResponse == 2) 
+            if (regResponse == 2)           ///returns number of registers read
             {
                 temp1=std::to_string(valread[0]);
-                temp2=std::to_string(valread[1]);
-                //std::cout << addr   <<": " << temp1 << std::endl;
-                //std::cout << addr+1 <<": " << temp2 << std::endl;
-                //temp=temp1+"."+temp2;
-                std::cout<<valread[0]<<" "<<temp2<<std::endl;
-                //std::cout<<temp<<std::endl;
+                //temp2=std::to_string(valread[1]);
+                std::cout<<temp1<<std::endl;
+                //std::cout<<temp1<<" "<<temp2<<std::endl;
                 std::cout<<"SUCCESS"<<std::endl;
                 return std::stof(temp1);
 
@@ -84,21 +78,20 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
 	umap["totval.vflowinv"] = &msg.totval.vflowinv;
 	std::cout<<"In program"<<&msg<<std::endl;
 	typedef std::map<std::string, int>::const_iterator map_itr;
-    for(map_itr m = regAddr.begin(); m!=regAddr.end(); m++ )
+    for(map_itr m = regAddr.begin(); m!=regAddr.end(); m++ )    ///iterating through each register and calling readAddr for each
     {
 		float temp = Readreg::readAddr((m->second));
-// 		std::cout<<m->first<<"--"<<temp<<std::endl;
 		*umap[m->first] = temp;
     }
     
-    return msg;
+    return msg;                                                 ///returns rosmsg to rostopic publisher  readregpub
     
 }
 
-modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)
+modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)     ///Reading Alarm registers of 16bits to return the bits which are set to indicate error
 {
     modmanipros::alarm msg;
-    msg.header.stamp.fromSec(ros::WallTime::now().toSec());
+    msg.header.stamp.fromSec(ros::WallTime::now().toSec());     //Timestamp
    std::vector<float> val(regAddr.size());
    for(int i = 0;i<regAddr.size();i++)
    {
@@ -112,7 +105,8 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)
                 for(int j = 0;j<16;j++)
                 {
                     uint8_t bitval;
-                    std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl;
+                     ///Bitmasking register to isolate individual bits(Alarms/Flags)
+                    std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl; 
                     bitval = uint8_t(valread[0] & (1 << j));
                     alarmval.push_back(bitval);
                 } 
@@ -141,7 +135,7 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)
 
    }
    
-   return msg;
+   return msg;                                                           ///returns rosmsg to rostopic publisher alarmpub
 }
 
 
