@@ -18,6 +18,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(MOD REQUIRED IMPORTED_TARGET modbuspp)
 
 pkg_check_modules(libconf REQUIRED IMPORTED_TARGET libconfig++)
+pkg_check_modules(mongodb REQUIRED IMPORTED_TARGET libmongocxx)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -135,9 +136,10 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/modmanipros.cpp
 # )
-add_executable(modmanip src/main.cpp lib/Readreg.cpp lib/Regconfig.cpp lib/writereg.cpp)
+add_executable(modmanip src/main.cpp lib/Readreg.cpp lib/Regconfig.cpp lib/writereg.cpp lib/database.cpp)
 target_link_libraries(modmanip PUBLIC PkgConfig::MOD)
 target_link_libraries(modmanip PUBLIC PkgConfig::libconf)
+target_link_libraries(modmanip PUBLIC PkgConfig::mongodb)
 target_link_libraries(modmanip ${catkin_LIBRARIES})
 add_dependencies(modmanip modmanipros_generate_messages_cpp)
 
