@@ -18,7 +18,7 @@ int main (int argc, char **argv) {
     ///ros inclusion
     ros::init(argc,argv,"modbusnode");
     ros::NodeHandle nh;
-    ros::Rate loop_rate(0.1);
+    ros::Rate loop_rate(1);
     ros::Publisher readregpub=nh.advertise<modmanipros::regval>("modmanip/readval",1000);
     ros::Publisher alarmpub=nh.advertise<modmanipros::alarm>("modmanip/alarm",1000);
     ///ros node initialized
