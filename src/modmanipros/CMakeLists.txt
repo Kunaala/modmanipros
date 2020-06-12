@@ -9,6 +9,8 @@ project(modmanipros)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  ros_type_introspection
+  roscpp_serialization
   rospy
   std_msgs
   message_generation
@@ -115,7 +117,7 @@ catkin_package(CATKIN_DEPENDS rospy roscpp message_runtime)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES modmanipros
-   CATKIN_DEPENDS roscpp rospy std_msgs
+   CATKIN_DEPENDS roscpp rospy std_msgs  ros_type_introspection roscpp roscpp_serialization
 #  DEPENDS system_lib
 )
 

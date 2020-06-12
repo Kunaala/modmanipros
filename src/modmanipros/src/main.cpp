@@ -1,6 +1,7 @@
 #include "Readreg.h"
 #include "writereg.h"
 #include "Regconfig.h"
+#include "database.h"
 #include<string>
 #include<iostream>
 #include<modbuspp.h>
@@ -27,7 +28,7 @@ int main (int argc, char **argv) {
     std::vector<int> alarmRegisters;         ///reading address of Alarm/flag registers
     rRegisters = rc1.rwReg();                /// to store the rw register address
     alarmRegisters = rc1.alarmReg();	    /// to store alarm register address
-
+    Storereg db;
     if (mb.open ()) {                       /// open a connection
         Readreg r1(&slv);
         ///ROS publisher
@@ -38,6 +39,7 @@ int main (int argc, char **argv) {
             modmanipros::alarm alarmMsg;
             readRegMsg= r1.readVal(rRegisters);         ///reading values of holding registers
             alarmMsg =  r1.readBits(alarmRegisters);    ///reading values of Alarm/flag registers
+            db.insertRegData(readRegMsg);
             ///Publishing values read libmodbuspp through ROS topics
             readregpub.publish(readRegMsg);
             alarmpub.publish(alarmMsg);
