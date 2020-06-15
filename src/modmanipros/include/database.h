@@ -15,11 +15,11 @@ using namespace RosIntrospection;
 using namespace ros::message_traits;
 namespace ser = ros::serialization;
 class Storereg
-{
-    private:
-        // mongocxx::client conn{mongocxx::uri{}};
+{   private:
+        mongocxx::collection collect;
+    
     public:
-	Storereg();
+        Storereg();
         bsoncxx::document::value deserialize(const modmanipros::regval msg);
         void insertRegData(const modmanipros::regval msg);
 };

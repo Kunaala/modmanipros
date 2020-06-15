@@ -2,6 +2,11 @@
 Storereg::Storereg()
 {
 	mongocxx::instance inst{};
+    mongocxx::client client{mongocxx::uri{"mongodb://0.0.0.0:2717/" }};
+    mongocxx::database db=client["cppdb"]; 
+    collect= db["testcollection"];
+
+
 }
 bsoncxx::document::value Storereg::deserialize(const modmanipros::regval msg)
 {
@@ -39,13 +44,11 @@ bsoncxx::document::value Storereg::deserialize(const modmanipros::regval msg)
 }
 void Storereg::insertRegData(const modmanipros::regval msg)
 {
-    mongocxx::client conn{mongocxx::uri{"mongodb://0.0.0.0:2717/" }};
     bsoncxx::document::value docObj = deserialize(msg);
 
-    auto collection = conn["testdb"]["testcollection"];
-    collection.insert_one(docObj.view());
-    auto cursor = collection.find({});
-    std::cout<<"printing"<<std::endl;
+    collect.insert_one(docObj.view());
+    auto cursor = collect.find({});
+    std::cout<<"storing in database"<<std::endl;
 //     for (auto&& doc : cursor) {
 //         std::cout << bsoncxx::to_json(doc) << std::endl;
 //     }

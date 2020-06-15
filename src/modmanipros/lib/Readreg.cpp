@@ -111,8 +111,7 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)     ///Reading Al
                     alarmval.push_back(bitval);
                 } 
                 msg.primaryflags = alarmval;
-                // msg.primaryflags = alarmval;
-                 
+                
             }
         }
         else if (i == 1 )
