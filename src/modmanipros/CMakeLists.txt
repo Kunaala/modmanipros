@@ -141,9 +141,9 @@ include_directories(
 add_executable(modmanip src/main.cpp lib/Readreg.cpp lib/Regconfig.cpp lib/writereg.cpp lib/database.cpp)
 target_link_libraries(modmanip PUBLIC PkgConfig::MOD)
 target_link_libraries(modmanip PUBLIC PkgConfig::libconf)
-target_link_libraries(modmanip lib/libINI.a)
+
 target_link_libraries(modmanip PUBLIC PkgConfig::mongodb)
-target_link_libraries(modmanip ${catkin_LIBRARIES})
+#target_link_libraries(modmanip ${catkin_LIBRARIES})
 add_dependencies(modmanip modmanipros_generate_messages_cpp)
 
 ## Add cmake target dependencies of the library
@@ -167,9 +167,10 @@ add_dependencies(modmanip modmanipros_generate_messages_cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(modmanip
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(modmanip ${CMAKE_SOURCE_DIR}/libINI.a)
+target_link_libraries(modmanip
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

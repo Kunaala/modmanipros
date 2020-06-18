@@ -25,9 +25,10 @@
 class Regconfig
 {
 public:
-	
+	INI* handle;
     Regconfig();
-    Regconfig(std::string filename);
+    //Regconfig(std::string filename);
+    std::map<std::string,int> regAddr1;
 	std::map<std::string, int> rwReg();
 // 	std::map<std::string, int> wReg();
     std::vector<int> alarmReg();    
