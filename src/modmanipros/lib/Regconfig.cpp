@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2020 chetan <chetanchadha@curlanalytics.com>
  * 
@@ -15,16 +16,36 @@
  */
 
 #include "Regconfig.h"
-
 Regconfig::Regconfig()
 {
+    
+    INI* handle = INI_New(NULL);
+    // Read from file
+    if(!INI_ReadFilePath(handle,"emerson.ini"))
+    {
+        // Free allocated memory
+        INI_Free(handle);
+        //return EXIT_FAILURE;
+    }
 
 }
 
+// Regconfig::Regconfig(std::string fname)
+// {
+//     
+//     INI* handle = INI_New(NULL);
+//     // Read from file
+//     if(!INI_ReadFilePath(handle,fname))
+//     {
+//         // Free allocated memory
+//         INI_Free(handle);
+//         //return EXIT_FAILURE;
+//     }
+// 
+// }
+
 std::map<std::string, int> Regconfig::rwReg()
 {
-
-
 	std::map<std::string, int> regAddr;
 	regAddr.insert(std::make_pair("instval.mflow",247));
 	regAddr.insert(std::make_pair("instval.density",249));
@@ -46,6 +67,7 @@ std::vector<int> Regconfig::alarmReg()
 	std::vector<int> reg = { 1,420}; 
 	return reg;
 }
+
 
 
  

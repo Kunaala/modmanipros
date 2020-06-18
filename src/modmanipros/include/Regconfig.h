@@ -16,16 +16,18 @@
 
 #ifndef REGCONFIG_H
 #define REGCONFIG_H
-#include<iostream>
-#include<map>
+#include <iostream>
+#include <map>
 #include <string>
-#include<vector>
+#include <vector>
+#include "ini.h"
 
 class Regconfig
 {
 public:
 	
     Regconfig();
+    Regconfig(std::string filename);
 	std::map<std::string, int> rwReg();
 // 	std::map<std::string, int> wReg();
     std::vector<int> alarmReg();    
