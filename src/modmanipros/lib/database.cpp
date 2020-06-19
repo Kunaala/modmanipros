@@ -2,9 +2,8 @@
 Storereg::Storereg()
 {
 	mongocxx::instance inst{};
-    mongocxx::client client{mongocxx::uri{"mongodb://0.0.0.0:2717/" }};
-    mongocxx::database db=client["cppdb"]; 
-    collect= db["testcollection"];
+    // Storereg::client{mongocxx::uri{"mongodb://0.0.0.0:2717/" }};
+    //mongocxx::database db=client["cppdb"]; 
 
 
 }
@@ -44,6 +43,9 @@ bsoncxx::document::value Storereg::deserialize(const modmanipros::regval msg)
 }
 void Storereg::insertRegData(const modmanipros::regval msg)
 {
+    mongocxx::client client{mongocxx::uri{"mongodb://0.0.0.0:2717/" }};
+    mongocxx::database db= client["cppdb"];
+    mongocxx::collection collect= db["testcollection"];
     bsoncxx::document::value docObj = deserialize(msg);
 
     collect.insert_one(docObj.view());

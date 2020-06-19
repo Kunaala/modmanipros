@@ -16,8 +16,8 @@ using namespace ros::message_traits;
 namespace ser = ros::serialization;
 class Storereg
 {   private:
-        mongocxx::collection collect;
-    
+        //mongocxx::collection collect;
+        // mongocxx::client client;
     public:
         Storereg();
         bsoncxx::document::value deserialize(const modmanipros::regval msg);
