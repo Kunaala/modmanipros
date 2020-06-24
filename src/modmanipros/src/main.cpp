@@ -4,7 +4,7 @@
 #include "database.h"
 #include<string>
 #include<iostream>
-#include<modbuspp.h>
+#include<modbus.h>
 #include<map>
 #include<vector>
 #include<ros/ros.h>
@@ -13,9 +13,21 @@
 using namespace Modbus;
 
 int main (int argc, char **argv) {
-    std::string port ="/dev/ttyUSB0";
-    Master mb (Rtu, port , "38400"); /// new master on RTU
-    Slave  &slv = mb.addSlave(1);   /// to the slave at address 33
+    modbus_t *ctx ;
+    ctx = modbus_new_rtu("/dev/ttyTHS1", 38400, 'N', 8, 1);
+    if (!ctx) {
+        fprintf(stderr, "Failed to create the context: %s\n", modbus_strerror(errno));
+        exit(1);
+    }
+
+    if (modbus_connect(ctx) == -1) {
+        fprintf(stderr, "Unable to connect: %s\n", modbus_strerror(errno));
+        modbus_free(ctx);
+        exit(1);
+    }
+
+//Set the Modbus address of the remote slave (to 3)
+    modbus_set_slave(ctx, 1);
     ///ros inclusion
     ros::init(argc,argv,"modbusnode");
     ros::NodeHandle nh;
@@ -29,30 +41,27 @@ int main (int argc, char **argv) {
     rRegisters = rc1.rwReg();                /// to store the rw register address
     alarmRegisters = rc1.alarmReg();	    /// to store alarm register address
     Storereg db;
-    if (mb.open ()) {                       /// open a connection
-        Readreg r1(&slv);
-        ///ROS publisher
-        while (ros::ok())
-        {
-            ///creating custom ros msg objects
-            modmanipros::regval readRegMsg;
-            modmanipros::alarm alarmMsg;
-            readRegMsg= r1.readVal(rRegisters);         ///reading values of holding registers
-            alarmMsg =  r1.readBits(alarmRegisters);    ///reading values of Alarm/flag registers
-            db.insertRegData(readRegMsg);
-            ///Publishing values read libmodbuspp through ROS topics
-            readregpub.publish(readRegMsg);
-            alarmpub.publish(alarmMsg);
-            ros::spinOnce();
-            loop_rate.sleep();
-        }
-        ///End of ROS publisher//////
-        mb.close();                         ///Close connection
+                    /// open a connection
+    Readreg r1(ctx);
+    ///ROS publisher
+    while (ros::ok())
+    {
+        ///creating custom ros msg objects
+        modmanipros::regval readRegMsg;
+        modmanipros::alarm alarmMsg;
+        readRegMsg= r1.readVal(rRegisters);         ///reading values of holding registers
+        alarmMsg =  r1.readBits(alarmRegisters);    ///reading values of Alarm/flag registers
+        db.insertRegData(readRegMsg);
+        ///Publishing values read libmodbuspp through ROS topics
+        readregpub.publish(readRegMsg);
+        alarmpub.publish(alarmMsg);
+        ros::spinOnce();
+        loop_rate.sleep();
     }
-    else {
-        std::cerr << "Unable to open MODBUS connection to " << port << std::endl;
-        exit (EXIT_FAILURE);
-    }
-
+    ///End of ROS publisher//////
+                         ///Close connection
+    modbus_close(ctx);
+    modbus_free(ctx);
+    
     return 0;
 }

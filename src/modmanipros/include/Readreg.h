@@ -19,7 +19,7 @@
 
 #include<string>
 #include<iostream>
-#include<modbuspp.h>
+#include<modbus.h>
 #include<map>
 #include<vector>
 #include<unordered_map>
@@ -31,15 +31,16 @@ class Readreg
 public:
 
    
-    Readreg(Modbus::Slave* slv);
+    Readreg(modbus_t* ctx);
     modmanipros::regval readVal(std::map<std::string, int> regAddr);
     float readAddr(int addr);
 	modmanipros::alarm readBits(std::vector<int> regAddr);
     
 private:
     
-    Modbus::Slave* slave;                                      ///creating local slave object
-    Modbus::Data<float, Modbus::EndianBigLittle> valread[2];  ///containers for reading value from registers
+    modbus_t *context;                                      ///creating local slave object
+  
+    uint16_t tempval[2];                    ///containers for reading value from registers
 
    
 

@@ -17,11 +17,11 @@
 #include "Readreg.h"
 #include "ros/ros.h"
 
-Readreg::Readreg(Modbus::Slave* slv)
+Readreg::Readreg(modbus_t *ctx)
 {
      std::cout<<"Reading has started\n";
      
-     slave=slv;                     ///initialization of Slave
+     context=ctx;                     ///initialization of Slave
    
 }
 float Readreg::readAddr(int addr)
@@ -30,17 +30,19 @@ float Readreg::readAddr(int addr)
     
     for(int i=0; i <2; i++)
     {
-        int regResponse = slave->readRegisters(addr, valread, 1);
-        //std::cout<<regResponse<<std::endl;
+        int regResponse = modbus_read_registers(context, addr-1, 2, tempval);
+        std::cout<<regResponse<<std::endl;
         try{
             if (regResponse == 2)           ///returns number of registers read
             {
-                temp1=std::to_string(valread[0]);
-                //temp2=std::to_string(valread[1]);
-                std::cout<<temp1<<std::endl;
-                //std::cout<<temp1<<" "<<temp2<<std::endl;
+                // temp1=std::to_string(tempval[0]);
+                // //temp2=std::to_string(valread[1]);
+                // std::cout<<temp1<<std::endl;
+                // //std::cout<<temp1<<" "<<temp2<<std::endl;
                 std::cout<<"SUCCESS"<<std::endl;
-                return std::stof(temp1);
+                float val = modbus_get_float_badc(tempval);
+                std::cout<<val<<std::endl;
+                return val;
 
             }
             else 
@@ -98,7 +100,7 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)     ///Reading Al
        if(i == 0)
         {
             uint16_t valread[2];
-            if(slave->readRegisters(regAddr[i],valread,1) == 1)
+            if(modbus_read_registers(context, regAddr[i]-1,1 , valread) == 1)
             {
                 std::vector<uint8_t> alarmval;
                 // alarmval = &msg.primaryflags;
@@ -117,7 +119,7 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)     ///Reading Al
         else if (i == 1 )
         {
             uint16_t valread[2];
-            if(slave->readRegisters(regAddr[i],valread,1) == 1)
+            if(modbus_read_registers(context, regAddr[i]-1,1 , valread) == 1)
             {
                 std::vector<uint8_t> alarmval;
                 for(int j = 0;j<16;j++)

@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(MOD REQUIRED IMPORTED_TARGET modbuspp)
+pkg_check_modules(MOD REQUIRED IMPORTED_TARGET libmodbus)
 
 pkg_check_modules(libconf REQUIRED IMPORTED_TARGET libconfig++)
 pkg_check_modules(mongodb REQUIRED IMPORTED_TARGET libmongocxx)
