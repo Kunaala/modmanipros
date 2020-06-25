@@ -16,9 +16,12 @@
  */
 
 #include "Regconfig.h"
+#include <fstream>
+
 Regconfig::Regconfig()
 {
-    
+    std::fstream file; 
+	file.open("Gfg.txt",std::ios::out);
     Regconfig::handle = INI_New(NULL);
     // Read from file
     if(!INI_ReadFilePath(handle,"emerson.ini"))
@@ -30,49 +33,27 @@ Regconfig::Regconfig()
 
 }
 
-// Regconfig::Regconfig(std::string fname)
-// {
-//     
-//     INI* handle = INI_New(NULL);
-//     // Read from file
-//     if(!INI_ReadFilePath(handle,fname))
-//     {
-//         // Free allocated memory
-//         INI_Free(handle);
-//         //return EXIT_FAILURE;
-//     }
-// 
-// }
 
+int Regconfig::iniVal(const char* key,const char* sector = "rreg")
+{
+    return std::stoi(INI_GetString(Regconfig::handle, sector, key));
+}
 
 std::map<std::string, int> Regconfig::rwReg()
 {
 	std::map<std::string, int> regAddr;
-    std::string value;
-    value = INI_GetString(handle, "rreg", "instval_mflow");
-	regAddr.insert(std::make_pair("instval.mflow",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "instval_density");
-	regAddr.insert(std::make_pair("instval.density",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "instval_temp");
-	regAddr.insert(std::make_pair("instval.temp",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "instval_vflow");
-	regAddr.insert(std::make_pair("instval.vflow",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "instval_driveg");
-	regAddr.insert(std::make_pair("instval.driveg",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "instval_rtfreq");
-	regAddr.insert(std::make_pair("instval.rtfreq",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "instval_lpvolts");
-	regAddr.insert(std::make_pair("instval.lpvolts",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "instval_rpvolts");
-	regAddr.insert(std::make_pair("instval.rpvolts",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "totval_mflowt");
-	regAddr.insert(std::make_pair("totval.mflowt",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "totval_mflowinv");
-	regAddr.insert(std::make_pair("totval.mflowinv",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "totval_vflowt");
-	regAddr.insert(std::make_pair("totval.vflowt",std::stoi(value)));
-    value = INI_GetString(handle, "rreg", "totval_vflowinv");
-	regAddr.insert(std::make_pair("totval.vflowinv",std::stoi(value)));
+	regAddr.insert(std::make_pair("instval.mflow", Regconfig::iniVal("instval_mflow")));
+	regAddr.insert(std::make_pair("instval.density", Regconfig::iniVal("instval_density")));
+	regAddr.insert(std::make_pair("instval.temp", Regconfig::iniVal("instval_temp")));
+	regAddr.insert(std::make_pair("instval.vflow", Regconfig::iniVal("instval_vflow")));
+	regAddr.insert(std::make_pair("instval.driveg",Regconfig::iniVal("instval_driveg")));
+	regAddr.insert(std::make_pair("instval.rtfreq",Regconfig::iniVal("instval_rtfreq")));
+	regAddr.insert(std::make_pair("instval.lpvolts", Regconfig::iniVal("instval_lpvolts")));
+	regAddr.insert(std::make_pair("instval.rpvolts", Regconfig::iniVal("instval_rpvolts")));
+	regAddr.insert(std::make_pair("totval.mflowt", Regconfig::iniVal("totval_mflowt")));
+	regAddr.insert(std::make_pair("totval.mflowinv", Regconfig::iniVal("totval_mflowinv")));
+	regAddr.insert(std::make_pair("totval.vflowt", Regconfig::iniVal("totval_vflowt")));
+	regAddr.insert(std::make_pair("totval.vflowinv", Regconfig::iniVal("totval_vflowinv")));
 	return regAddr;
 }
  

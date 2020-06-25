@@ -27,6 +27,7 @@ class Regconfig
 public:
 	INI* handle;
     Regconfig();
+    int iniVal(const char* ,const char* );
     //Regconfig(std::string filename);
     std::map<std::string,int> regAddr1;
 	std::map<std::string, int> rwReg();

@@ -13,8 +13,19 @@
 using namespace Modbus;
 
 int main (int argc, char **argv) {
+
+    ros::init(argc,argv,"modbusnode");
+    ros::NodeHandle nh;
+    ros::Rate loop_rate(1);
+    ros::Publisher readregpub=nh.advertise<modmanipros::regval>("modmanip/readval",1000);
+    ros::Publisher alarmpub=nh.advertise<modmanipros::alarm>("modmanip/alarm",1000);
+    ///ros node initialized
     modbus_t *ctx ;
-    ctx = modbus_new_rtu("/dev/ttyTHS1", 38400, 'N', 8, 1);
+    std::string com_port;
+    int baud_rate;
+    nh.getParam("/com_port", com_port);
+    nh.getParam("/baud_rate",baud_rate);
+    ctx = modbus_new_rtu("/dev/ttyTHS1", baud_rate, 'N', 8, 1);
     if (!ctx) {
         fprintf(stderr, "Failed to create the context: %s\n", modbus_strerror(errno));
         exit(1);
@@ -26,15 +37,8 @@ int main (int argc, char **argv) {
         exit(1);
     }
 
-//Set the Modbus address of the remote slave (to 3)
-    modbus_set_slave(ctx, 1);
-    ///ros inclusion
-    ros::init(argc,argv,"modbusnode");
-    ros::NodeHandle nh;
-    ros::Rate loop_rate(1);
-    ros::Publisher readregpub=nh.advertise<modmanipros::regval>("modmanip/readval",1000);
-    ros::Publisher alarmpub=nh.advertise<modmanipros::alarm>("modmanip/alarm",1000);
-    ///ros node initialized
+    
+    modbus_set_slave(ctx, 1);    //Set the Modbus address of the remote slave (to 1)
 	Regconfig rc1;         //initialization of config object
 	std::map<std::string, int> rRegisters;   ///reading address of holding registers
     std::vector<int> alarmRegisters;         ///reading address of Alarm/flag registers

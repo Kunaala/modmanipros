@@ -1,0 +1,4 @@
+<launch>
+<rosparam command="load" file="$(find modmanipros)/config/configparam.yaml"/>
+<node pkg="modmanipros" type="modmanip" name="sentinel_node" />
+</launch>

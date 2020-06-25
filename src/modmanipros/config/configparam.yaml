@@ -1,0 +1,3 @@
+com_port : "/dev/ttyTHS1"
+baud_rate : 38400
+parity : 'N'
