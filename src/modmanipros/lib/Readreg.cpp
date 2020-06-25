@@ -40,7 +40,7 @@ float Readreg::readAddr(int addr)
                 // std::cout<<temp1<<std::endl;
                 // //std::cout<<temp1<<" "<<temp2<<std::endl;
                 std::cout<<"SUCCESS"<<std::endl;
-                float val = modbus_get_float_badc(tempval);
+                float val = modbus_get_float_cdab(tempval);
                 std::cout<<val<<std::endl;
                 return val;
 
