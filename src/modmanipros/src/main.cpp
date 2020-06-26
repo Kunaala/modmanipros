@@ -23,9 +23,12 @@ int main (int argc, char **argv) {
     modbus_t *ctx ;
     std::string com_port;
     int baud_rate;
+    std::string parity;
     nh.getParam("/com_port", com_port);
     nh.getParam("/baud_rate",baud_rate);
-    ctx = modbus_new_rtu("/dev/ttyTHS1", baud_rate, 'N', 8, 1);
+    nh.getParam("/parity",parity);
+    //const char *tempcom=com_port.c_str();
+    ctx = modbus_new_rtu(com_port.c_str(), baud_rate, parity[0], 8, 1);
     if (!ctx) {
         fprintf(stderr, "Failed to create the context: %s\n", modbus_strerror(errno));
         exit(1);
@@ -47,6 +50,11 @@ int main (int argc, char **argv) {
     Storereg db;
                     /// open a connection
     Readreg r1(ctx);
+    std::string dburi;
+    std::string dbname;
+    nh.getParam("/dburi", dburi);
+    nh.getParam("/dbname",dbname);
+   
     ///ROS publisher
     while (ros::ok())
     {
@@ -55,7 +63,7 @@ int main (int argc, char **argv) {
         modmanipros::alarm alarmMsg;
         readRegMsg= r1.readVal(rRegisters);         ///reading values of holding registers
         alarmMsg =  r1.readBits(alarmRegisters);    ///reading values of Alarm/flag registers
-        db.insertRegData(readRegMsg);
+        db.insertRegData(readRegMsg,dburi,dbname);
         ///Publishing values read libmodbuspp through ROS topics
         readregpub.publish(readRegMsg);
         alarmpub.publish(alarmMsg);

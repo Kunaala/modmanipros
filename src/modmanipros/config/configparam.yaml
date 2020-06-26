@@ -1,3 +1,5 @@
-com_port : "/dev/ttyTHS1"
+com_port  : "/dev/ttyTHS1"
 baud_rate : 38400
-parity : 'N'
+parity    : 'N'
+dburi     : "mongodb://0.0.0.0:2717/"
+dbname    : "sentineldb"

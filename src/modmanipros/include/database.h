@@ -21,5 +21,5 @@ class Storereg
     public:
         Storereg();
         bsoncxx::document::value deserialize(const modmanipros::regval msg);
-        void insertRegData(const modmanipros::regval msg);
+        void insertRegData(const modmanipros::regval msg, std::string dburi, std::string dbname);
 };
