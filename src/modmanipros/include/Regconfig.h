@@ -31,7 +31,7 @@ public:
     //Regconfig(std::string filename);
     std::map<std::string,int> regAddr1;
 	std::map<std::string, int> rwReg();
-// 	std::map<std::string, int> wReg();
+    std::map<std::string, uint16_t> alarmConfig();
     std::vector<int> alarmReg();    
 private:
 

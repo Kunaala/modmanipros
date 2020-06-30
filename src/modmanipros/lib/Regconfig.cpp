@@ -20,8 +20,8 @@
 
 Regconfig::Regconfig()
 {
-    std::fstream file; 
-	file.open("Gfg.txt",std::ios::out);
+    // std::fstream file; 
+	// file.open("Gfg.txt",std::ios::out);
     Regconfig::handle = INI_New(NULL);
     // Read from file
     if(!INI_ReadFilePath(handle,"emerson.ini"))
@@ -59,8 +59,36 @@ std::map<std::string, int> Regconfig::rwReg()
  
 std::vector<int> Regconfig::alarmReg()
 {
-	std::vector<int> reg = { 1,420}; 
+	std::vector<int> reg = { 1,125,126}; 
 	return reg;
+}
+
+std::map<std::string,uint16_t> Regconfig::alarmConfig()
+{
+	std::map<std::string,uint16_t> regSeverity;
+	regSeverity.insert(std::make_pair("125_9", 2));
+	regSeverity.insert(std::make_pair("1_2", 3));
+	regSeverity.insert(std::make_pair("1_4", 5));
+	regSeverity.insert(std::make_pair("1_6", 6));
+	regSeverity.insert(std::make_pair("1_10", 8));
+	regSeverity.insert(std::make_pair("125_4", 8));
+	regSeverity.insert(std::make_pair("1_14", 9));
+	regSeverity.insert(std::make_pair("126_3", 27));
+	regSeverity.insert(std::make_pair("125_0", 100));
+	regSeverity.insert(std::make_pair("125_2", 101));
+	regSeverity.insert(std::make_pair("125_5", 102));
+	regSeverity.insert(std::make_pair("126_14", 104));
+	regSeverity.insert(std::make_pair("126_15", 105));
+	regSeverity.insert(std::make_pair("1_13", 105));
+	regSeverity.insert(std::make_pair("126_0", 106));
+	regSeverity.insert(std::make_pair("126_1", 107));
+	regSeverity.insert(std::make_pair("126_6", 108));
+	regSeverity.insert(std::make_pair("126_5", 109));
+	regSeverity.insert(std::make_pair("125_13", 110));
+	regSeverity.insert(std::make_pair("125_1", 113));
+	regSeverity.insert(std::make_pair("125_3", 114));
+	regSeverity.insert(std::make_pair("125_7", 115));
+	return regSeverity;
 }
 
 

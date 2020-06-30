@@ -44,9 +44,11 @@ int main (int argc, char **argv) {
     modbus_set_slave(ctx, 1);    //Set the Modbus address of the remote slave (to 1)
 	Regconfig rc1;         //initialization of config object
 	std::map<std::string, int> rRegisters;   ///reading address of holding registers
+    std::map<std::string, uint16_t> alarmConfig; 
     std::vector<int> alarmRegisters;         ///reading address of Alarm/flag registers
     rRegisters = rc1.rwReg();                /// to store the rw register address
     alarmRegisters = rc1.alarmReg();	    /// to store alarm register address
+    alarmConfig=rc1.alarmConfig();
     Storereg db;
                     /// open a connection
     Readreg r1(ctx);
@@ -62,7 +64,7 @@ int main (int argc, char **argv) {
         modmanipros::regval readRegMsg;
         modmanipros::alarm alarmMsg;
         readRegMsg= r1.readVal(rRegisters);         ///reading values of holding registers
-        alarmMsg =  r1.readBits(alarmRegisters);    ///reading values of Alarm/flag registers
+        alarmMsg =  r1.readBits(alarmRegisters, alarmConfig);    ///reading values of Alarm/flag registers
         db.insertRegData(readRegMsg,dburi,dbname);
         ///Publishing values read libmodbuspp through ROS topics
         readregpub.publish(readRegMsg);

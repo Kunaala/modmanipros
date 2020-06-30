@@ -90,19 +90,21 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
     
 }
 
-modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)     ///Reading Alarm registers of 16bits to return the bits which are set to indicate error
+modmanipros::alarm Readreg::readBits(std::vector<int> regAddr, std::map<std::string, uint16_t> regSeverity)     ///Reading Alarm registers of 16bits to return the bits which are set to indicate error
 {
     modmanipros::alarm msg;
     msg.header.stamp.fromSec(ros::WallTime::now().toSec());     //Timestamp
-   std::vector<float> val(regAddr.size());
+    std::vector<float> val(regAddr.size());
+    std::map<std::string,int>::iterator itr;
+    std::string temp;
+    std::vector<uint16_t> alarmval;
    for(int i = 0;i<regAddr.size();i++)
    {
-       if(i == 0)
-        {
+      
             uint16_t valread[2];
             if(modbus_read_registers(context, regAddr[i]-1,1 , valread) == 1)
             {
-                std::vector<uint8_t> alarmval;
+                
                 // alarmval = &msg.primaryflags;
                 for(int j = 0;j<16;j++)
                 {
@@ -110,31 +112,21 @@ modmanipros::alarm Readreg::readBits(std::vector<int> regAddr)     ///Reading Al
                      ///Bitmasking register to isolate individual bits(Alarms/Flags)
                     std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl; 
                     bitval = uint8_t(valread[0] & (1 << j));
-                    alarmval.push_back(bitval);
+                    
+                    if(bitval)
+                    {
+                        temp=std::to_string(regAddr[i])+"_"+std::to_string(j);
+                        alarmval.push_back(regSeverity.find(temp)->second);
+                    }
+                   
                 } 
-                msg.primaryflags = alarmval;
+                
                 
             }
-        }
-        else if (i == 1 )
-        {
-            uint16_t valread[2];
-            if(modbus_read_registers(context, regAddr[i]-1,1 , valread) == 1)
-            {
-                std::vector<uint8_t> alarmval;
-                for(int j = 0;j<16;j++)
-                {
-                    uint8_t bitval;
-                    std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl;
-                    bitval = uint8_t(valread[0] & (1 << j));
-                    alarmval.push_back(bitval);
-                    
-                }
-                msg.secondaryflags = alarmval; 
-            }
-        }   
+   
 
    }
+   msg.severity = alarmval;
    
    return msg;                                                           ///returns rosmsg to rostopic publisher alarmpub
 }
