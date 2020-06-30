@@ -59,7 +59,8 @@ std::map<std::string, int> Regconfig::rwReg()
  
 std::vector<int> Regconfig::alarmReg()
 {
-	std::vector<int> reg = { 1,125,126}; 
+	std::vector<int> areg;
+	areg.push_back(Regconfig::iniVal("instval_mflow")) 
 	return reg;
 }
 
