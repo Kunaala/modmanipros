@@ -1,3 +1,3 @@
 Header header
-instval instval
-totval totval
+instval instantValue
+totval totalValue

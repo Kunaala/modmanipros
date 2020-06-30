@@ -1,8 +1,8 @@
-float64 mflow
+float64 massFlow
 float64 density
-float64 temp
-float64 vflow
-float64 driveg
-float64 rtfreq
-float64 lpvolts
-float64 rpvolts
+float64 temperature
+float64 volumeFlow
+float64 driveGain
+float64 rawTubeFrequency
+float64 leftPickoffVolt
+float64 rightPickoffVolt

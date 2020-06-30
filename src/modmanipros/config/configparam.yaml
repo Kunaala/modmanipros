@@ -1,5 +1,5 @@
 com_port  : "/dev/ttyTHS1"
 baud_rate : 38400
 parity    : 'N'
-dburi     : "mongodb://0.0.0.0:2717/"
-dbname    : "sentineldb"
+dburi     : "mongodb://127.0.0.1:27017"
+dbname    : "chechadb"

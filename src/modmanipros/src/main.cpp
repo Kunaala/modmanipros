@@ -70,7 +70,7 @@ int main (int argc, char **argv) {
         ros::spinOnce();
         loop_rate.sleep();
     }
-    ///End of ROS publisher//////
+    ///End of ROS publisher//////   
                          ///Close connection
     modbus_close(ctx);
     modbus_free(ctx);

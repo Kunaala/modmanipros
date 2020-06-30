@@ -66,18 +66,18 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
     msg.header.stamp.fromSec(ros::WallTime::now().toSec());
     std::unordered_map<std::string, double*> umap; 
     // inserting values by using [] operator 
-	umap["instval.mflow"] = &msg.instval.mflow;
-	umap["instval.density"] = &msg.instval.density;
-	umap["instval.vflow"] = &msg.instval.vflow;
-	umap["instval.driveg"] = &msg.instval.driveg;
-	umap["instval.temp"] = &msg.instval.temp;
-	umap["instval.rtfreq"] = &msg.instval.rtfreq;
-	umap["instval.lpvolts"] = &msg.instval.lpvolts;
-	umap["instval.rpvolts"] = &msg.instval.rpvolts;
-	umap["totval.mflowt"] = &msg.totval.mflowt;
-	umap["totval.mflowinv"] = &msg.totval.mflowinv;
-	umap["totval.vflowt"] = &msg.totval.vflowt;
-	umap["totval.vflowinv"] = &msg.totval.vflowinv;
+	umap["instval.mflow"] = &msg.instantValue.massFlow;
+	umap["instval.density"] = &msg.instantValue.density;
+	umap["instval.vflow"] = &msg.instantValue.volumeFlow;
+	umap["instval.driveg"] = &msg.instantValue.driveGain;
+	umap["instval.temp"] = &msg.instantValue.temperature;
+	umap["instval.rtfreq"] = &msg.instantValue.rawTubeFrequency;
+	umap["instval.lpvolts"] = &msg.instantValue.leftPickoffVolt;
+	umap["instval.rpvolts"] = &msg.instantValue.rightPickoffVolt;
+	umap["totval.mflowt"] = &msg.totalValue.massFlowTotal;
+	umap["totval.mflowinv"] = &msg.totalValue.massFlowInventory;
+	umap["totval.vflowt"] = &msg.totalValue.volumeFlowTotal;
+	umap["totval.vflowinv"] = &msg.totalValue.volumeFlowInventory;
 	std::cout<<"In program"<<&msg<<std::endl;
 	typedef std::map<std::string, int>::const_iterator map_itr;
     for(map_itr m = regAddr.begin(); m!=regAddr.end(); m++ )    ///iterating through each register and calling readAddr for each

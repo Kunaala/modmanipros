@@ -1,4 +1,4 @@
-float64 mflowt
-float64 mflowinv
-float64 vflowt
-float64 vflowinv
+float64 massFlowTotal
+float64 massFlowInventory
+float64 volumeFlowTotal
+float64 volumeFlowInventory
