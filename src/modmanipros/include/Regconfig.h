@@ -20,12 +20,12 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "ini.h"
+#include "iniparser.hpp"
 
 class Regconfig
 {
 public:
-	INI* handle;
+    INI::File config;
     Regconfig();
     int iniVal(const char* ,const char* );
     //Regconfig(std::string filename);

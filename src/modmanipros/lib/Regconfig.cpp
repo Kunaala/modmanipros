@@ -20,24 +20,22 @@
 
 Regconfig::Regconfig()
 {
-    // std::fstream file; 
-	// file.open("Gfg.txt",std::ios::out);
-    Regconfig::handle = INI_New(NULL);
-    // Read from file
-    if(!INI_ReadFilePath(handle,"emerson.ini"))
-    {
-        // Free allocated memory
-        INI_Free(handle);
-        //return EXIT_FAILURE;
-    }
+
+	if (!config.Load("emerson.ini"))
+	{
+        std::cout<<"error opening file"<<std::endl;
+
+	}
 
 }
 
 
 int Regconfig::iniVal(const char* key,const char* sector = "rreg")
 {
-    return std::stoi(INI_GetString(Regconfig::handle, sector, key));
+    //return std::stoi(INI_GetString(Regconfig::handle, sector, key));
+	return config.GetSection(sector)->GetValue(key).AsInt();
 }
+
 
 std::map<std::string, int> Regconfig::rwReg()
 {
@@ -60,8 +58,13 @@ std::map<std::string, int> Regconfig::rwReg()
 std::vector<int> Regconfig::alarmReg()
 {
 	std::vector<int> areg;
-	areg.push_back(Regconfig::iniVal("instval_mflow")) 
-	return reg;
+	INI::Array dval = config.GetSection("alarmreg")->GetValue("areg").AsArray();
+	for(int i=0;i<dval.Size();i++)
+	{
+		areg.push_back(dval[i].AsInt()); 
+	}
+	
+	return areg;
 }
 
 std::map<std::string,uint16_t> Regconfig::alarmConfig()
