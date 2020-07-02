@@ -18,7 +18,7 @@ int main (int argc, char **argv) {
     ros::NodeHandle nh;
     ros::Rate loop_rate(1);
     ros::Publisher readregpub=nh.advertise<modmanipros::regval>("modmanip/readval",1000);
-    ros::Publisher alarmpub=nh.advertise<modmanipros::alarm>("modmanip/alarm",1000);
+    ros::Publisher alarmpub=nh.advertise<modmanipros::alarmval>("modmanip/alarmval",1000);
     ///ros node initialized
     modbus_t *ctx ;
     std::string com_port;
@@ -49,23 +49,25 @@ int main (int argc, char **argv) {
     rRegisters = rc1.rwReg();                /// to store the rw register address
     alarmRegisters = rc1.alarmReg();	    /// to store alarm register address
     alarmConfig=rc1.alarmConfig();
-    Storereg db;
+    
                     /// open a connection
     Readreg r1(ctx);
-    std::string dburi;
-    std::string dbname;
-    nh.getParam("/dburi", dburi);
-    nh.getParam("/dbname",dbname);
+    std::string mongouri;
+    std::string mongodb;
+    nh.getParam("/dburi", mongouri);
+    nh.getParam("/dbname",mongodb);
+    Storereg db(mongouri,mongodb);
    
     ///ROS publisher
     while (ros::ok())
     {
         ///creating custom ros msg objects
         modmanipros::regval readRegMsg;
-        modmanipros::alarm alarmMsg;
+        modmanipros::alarmval alarmMsg;
         readRegMsg= r1.readVal(rRegisters);         ///reading values of holding registers
         alarmMsg =  r1.readBits(alarmRegisters, alarmConfig);    ///reading values of Alarm/flag registers
-        db.insertRegData(readRegMsg,dburi,dbname);
+        db.insertRegData(readRegMsg);
+        db.insertAlarmData(alarmMsg);
         ///Publishing values read libmodbuspp through ROS topics
         readregpub.publish(readRegMsg);
         alarmpub.publish(alarmMsg);

@@ -24,7 +24,7 @@
 #include<vector>
 #include<unordered_map>
 #include "modmanipros/regval.h"
-#include "modmanipros/alarm.h"
+#include "modmanipros/alarmval.h"
 
 class Readreg
 {
@@ -34,7 +34,7 @@ public:
     Readreg(modbus_t* ctx);
     modmanipros::regval readVal(std::map<std::string, int> regAddr);
     float readAddr(int addr);
-	modmanipros::alarm readBits(std::vector<int> regAddr, std::map<std::string, uint16_t> regSeverity);
+	modmanipros::alarmval readBits(std::vector<int> regAddr, std::map<std::string, uint16_t> regSeverity);
     
 private:
     

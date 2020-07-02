@@ -90,10 +90,10 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
     
 }
 
-modmanipros::alarm Readreg::readBits(std::vector<int> regAddr, std::map<std::string, uint16_t> regSeverity)     ///Reading Alarm registers of 16bits to return the bits which are set to indicate error
+modmanipros::alarmval Readreg::readBits(std::vector<int> regAddr, std::map<std::string, uint16_t> regSeverity)     ///Reading Alarm registers of 16bits to return the bits which are set to indicate error
 {
-    modmanipros::alarm msg;
-    msg.header.stamp.fromSec(ros::WallTime::now().toSec());     //Timestamp
+    modmanipros::alarmval msg;
+    //msg.header.stamp.fromSec(ros::WallTime::now().toSec());     //Timestamp
     std::vector<float> val(regAddr.size());
     std::map<std::string,int>::iterator itr;
     std::string temp;
