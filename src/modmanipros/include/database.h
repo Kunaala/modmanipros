@@ -13,6 +13,9 @@
 #include <iterator>
 #include<exception>
 #include<bsoncxx/exception/exception.hpp> 
+#include<sstream>
+#define BOOST_CHRONO_VERSION 2
+#include<boost/chrono.hpp>
 using namespace RosIntrospection;
 using namespace ros::message_traits;
 namespace ser = ros::serialization;

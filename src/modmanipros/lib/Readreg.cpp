@@ -63,7 +63,11 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
 {
     
     modmanipros::regval msg;
-    msg.header.stamp.fromSec(ros::WallTime::now().toSec());
+    std::stringstream temp1,temp2;
+    temp1<<boost::chrono::time_fmt(boost::chrono::timezone::utc, "%D")<<boost::chrono::system_clock::now();
+	temp1>>msg.date;
+	temp2<<boost::chrono::time_fmt(boost::chrono::timezone::utc, "%H:%M:%S")<<boost::chrono::system_clock::now();
+	temp2>>msg.time;
     std::unordered_map<std::string, double*> umap; 
     // inserting values by using [] operator 
 	umap["instval.mflow"] = &msg.instantValue.massFlow;

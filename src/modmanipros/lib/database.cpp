@@ -50,6 +50,13 @@ void Storereg::insertVal(const modmanipros::regval msg,const FlatMessage& fmsg)
     std::regex re("\/");                                                ///String manipulation e.g instval/temp --> instval_temp
     bsoncxx::builder::stream::document doc{};
     doc<<"sid"<<Storereg::sid;
+    std::stringstream temp1,temp2;
+    std::string datestr,timestr;
+    temp1<<boost::chrono::time_fmt(boost::chrono::timezone::utc, "%D")<<boost::chrono::system_clock::now();
+	temp1>>datestr;
+	temp2<<boost::chrono::time_fmt(boost::chrono::timezone::utc, "%H:%M:%S")<<boost::chrono::system_clock::now();
+	temp2>>timestr;
+    doc<<"date"<<datestr<<"time"<<timestr;
 
     for(auto& it:fmsg.value) {
             std::string fieldname = it.first.toStdString();             ///iterating through Rosmsg fields
@@ -63,7 +70,7 @@ void Storereg::insertVal(const modmanipros::regval msg,const FlatMessage& fmsg)
 	bsoncxx::document::value doc_val = doc << bsoncxx::builder::stream::finalize;   ///updating doc_value to BSON doc object
     bsoncxx::document::view viewer = doc_val.view();
 	std::cout << bsoncxx::to_json(doc_val) << std::endl;                                     
-    updatedb(doc_val,"testcollection");  
+    updatedb(doc_val,"regcoll");  
 
 }
 void Storereg::insertVal(const modmanipros::alarmval msg,const FlatMessage& fmsg)
@@ -90,7 +97,7 @@ void Storereg::insertVal(const modmanipros::alarmval msg,const FlatMessage& fmsg
 	bsoncxx::document::value doc_val = arr2 << bsoncxx::builder::stream::finalize;   ///updating doc_value to BSON doc object
     bsoncxx::document::view viewer = doc_val.view();
 	std::cout << bsoncxx::to_json(doc_val) << std::endl;                                     
-    updatedb(doc_val,"testcollection2");  
+    updatedb(doc_val,"alarmcoll");  
 
 }
 template<typename T>

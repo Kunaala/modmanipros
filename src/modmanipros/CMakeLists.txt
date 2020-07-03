@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
+find_package(Boost REQUIRED COMPONENTS system date_time chrono)
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(MOD REQUIRED IMPORTED_TARGET libmodbus)
 
@@ -139,6 +141,7 @@ include_directories(
 #   src/${PROJECT_NAME}/modmanipros.cpp
 # )
 add_executable(modmanip src/main.cpp lib/Readreg.cpp lib/Regconfig.cpp lib/writereg.cpp lib/database.cpp)
+target_link_libraries(modmanip Boost::date_time Boost::chrono)
 target_link_libraries(modmanip PUBLIC PkgConfig::MOD)
 target_link_libraries(modmanip PUBLIC PkgConfig::libconf)
 

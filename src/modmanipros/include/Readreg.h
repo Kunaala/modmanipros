@@ -18,6 +18,9 @@
 #define READREG_H
 
 #include<string>
+#include<sstream>
+#define BOOST_CHRONO_VERSION 2
+#include<boost/chrono.hpp>
 #include<iostream>
 #include<modbus.h>
 #include<map>

@@ -1,3 +1,4 @@
-Header header
+string date
+string time
 instval instantValue
 totval totalValue
