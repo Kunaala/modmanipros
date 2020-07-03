@@ -16,7 +16,6 @@
 
 #ifndef READREG_H
 #define READREG_H
-
 #include<string>
 #include<sstream>
 #define BOOST_CHRONO_VERSION 2

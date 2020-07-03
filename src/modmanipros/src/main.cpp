@@ -3,8 +3,6 @@
 #include "Regconfig.h"
 #include "database.h"
 #include<string>
-
-
 #include<iostream>
 #include<modbus.h>
 #include<map>

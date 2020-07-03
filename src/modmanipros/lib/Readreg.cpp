@@ -97,9 +97,7 @@ modmanipros::regval Readreg::readVal(std::map<std::string, int> regAddr)
 modmanipros::alarmval Readreg::readBits(std::vector<int> regAddr, std::map<std::string, uint16_t> regSeverity)     ///Reading Alarm registers of 16bits to return the bits which are set to indicate error
 {
     modmanipros::alarmval msg;
-    //msg.header.stamp.fromSec(ros::WallTime::now().toSec());     //Timestamp
     std::vector<float> val(regAddr.size());
-    std::map<std::string,int>::iterator itr;
     std::string temp;
     std::vector<uint16_t> alarmval;
    for(int i = 0;i<regAddr.size();i++)
@@ -112,15 +110,21 @@ modmanipros::alarmval Readreg::readBits(std::vector<int> regAddr, std::map<std::
                 // alarmval = &msg.primaryflags;
                 for(int j = 0;j<16;j++)
                 {
-                    uint8_t bitval;
+                    bool bitval;
                      ///Bitmasking register to isolate individual bits(Alarms/Flags)
-                    std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< (valread[0] & (1 << j))<< std::endl; 
-                    bitval = uint8_t(valread[0] & (1 << j));
+                    bitval = bool(valread[0] & (1 << j));
+                    std::cout<<"Reg "<<regAddr[i]<<" bit:"<<j<<": "<< bitval<< std::endl; 
+                    //bitval = bool(valread[0] & (1 << j));
                     
                     if(bitval)
                     {
                         temp=std::to_string(regAddr[i])+"_"+std::to_string(j);
-                        alarmval.push_back(regSeverity.find(temp)->second);
+                        std::map<std::string,uint16_t>::iterator it=regSeverity.find(temp);
+                        if (it!=regSeverity.end())
+                        {
+                            alarmval.push_back(regSeverity.find(temp)->second);
+                        }
+
                     }
                    
                 } 

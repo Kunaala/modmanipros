@@ -50,6 +50,7 @@ void Storereg::insertVal(const modmanipros::regval msg,const FlatMessage& fmsg)
     std::regex re("\/");                                                ///String manipulation e.g instval/temp --> instval_temp
     bsoncxx::builder::stream::document doc{};
     doc<<"sid"<<Storereg::sid;
+    ///inserting date and timestamp
     std::stringstream temp1,temp2;
     std::string datestr,timestr;
     temp1<<boost::chrono::time_fmt(boost::chrono::timezone::utc, "%D")<<boost::chrono::system_clock::now();
@@ -57,7 +58,7 @@ void Storereg::insertVal(const modmanipros::regval msg,const FlatMessage& fmsg)
 	temp2<<boost::chrono::time_fmt(boost::chrono::timezone::utc, "%H:%M:%S")<<boost::chrono::system_clock::now();
 	temp2>>timestr;
     doc<<"date"<<datestr<<"time"<<timestr;
-
+    ///inserting date and timestamp
     for(auto& it:fmsg.value) {
             std::string fieldname = it.first.toStdString();             ///iterating through Rosmsg fields
             double value = it.second.convert<double>();                 ///updating values to Rosmsg fields
@@ -68,8 +69,8 @@ void Storereg::insertVal(const modmanipros::regval msg,const FlatMessage& fmsg)
     }
     
 	bsoncxx::document::value doc_val = doc << bsoncxx::builder::stream::finalize;   ///updating doc_value to BSON doc object
-    bsoncxx::document::view viewer = doc_val.view();
-	std::cout << bsoncxx::to_json(doc_val) << std::endl;                                     
+    // bsoncxx::document::view viewer = doc_val.view();
+	// std::cout << bsoncxx::to_json(doc_val) << std::endl;                                     
     updatedb(doc_val,"regcoll");  
 
 }
@@ -95,8 +96,8 @@ void Storereg::insertVal(const modmanipros::alarmval msg,const FlatMessage& fmsg
     auto arr2=arr<<bsoncxx::builder::stream::close_array;
     
 	bsoncxx::document::value doc_val = arr2 << bsoncxx::builder::stream::finalize;   ///updating doc_value to BSON doc object
-    bsoncxx::document::view viewer = doc_val.view();
-	std::cout << bsoncxx::to_json(doc_val) << std::endl;                                     
+    // bsoncxx::document::view viewer = doc_val.view();
+	// std::cout << bsoncxx::to_json(doc_val) << std::endl;                                     
     updatedb(doc_val,"alarmcoll");  
 
 }
@@ -120,8 +121,6 @@ void Storereg::deserialize(const T msg)
                                         Span<uint8_t>(buffer),          ///Using parser
                                         &flat_container, 200 );
     Storereg::insertVal(msg, flat_container);
-       
-    //return flat_container;
    }
 
 
